@@ -1,0 +1,29 @@
+version: "3.9"  # optional since v1.27.0
+networks:
+  trabalho_php:
+    external: false
+services:
+  php:
+    build: .
+    environment:
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - HOST=${HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - DATABASE=${DATABASE}
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+    networks:
+      - trabalho_php
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE}
+    ports:
+      - "3306:3306"
+    networks:
+      - trabalho_php
+    volumes:
+    - "/home/erik/Área de trabalho/projetos/apresentação/trabalho final/database:/var/lib/mysql:rw"
